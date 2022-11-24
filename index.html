@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Main App</title>
+  <style>
+    .frames {
+      display: flex;
+      width: 100%;
+      height: 40vh;
+    }
+
+    .col {
+      width: 50%;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <button id="msgVue">Envia para Vue</button>
+  <button id="msgSvelte">Envia para Svelte</button>
+
+  <sections class="frames">
+    <div class="col">
+      <iframe
+        src="http://localhost:5173/"
+        id="appSvelte"
+        frameborder="0">
+      </iframe>
+    </div>
+    <div class="col">
+      <iframe
+        src="http://localhost:5174/"
+        id="appVue"
+        frameborder="0">
+      </iframe>
+    </div>
+  </sections>
+
+  <script>
+    const iframeSvelte = document.getElementById('appSvelte');
+    const iframeVue = document.getElementById('appVue');
+
+    document.getElementById('msgVue').addEventListener('click', (event) => {
+      iframeVue.contentWindow.postMessage(
+        'testando envio',
+        iframeVue.attributes.getNamedItem('src').value
+      );
+    });
+
+    document.getElementById('msgSvelte').addEventListener('click', (event) => {
+      iframeSvelte.contentWindow.postMessage(
+        'testando envio',
+        iframeSvelte.attributes.getNamedItem('src').value
+      );
+    });
+  </script>
+</body>
+</html>

@@ -3,5 +3,5 @@ import HelloWorld from './components/HelloWorld.vue'
 </script>
 
 <template>
-  <HelloWorld msg="App Vue" />
+  <HelloWorld title="App Vue" />
 </template>

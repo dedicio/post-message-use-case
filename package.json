@@ -1,0 +1,22 @@
+{
+  "name": "post-message-use-case",
+  "version": "1.0.0",
+  "description": "Demonstração sobre o uso do `Window.postMessage()` para comunicação entre aplicações",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon .",
+    "dev": "(cd vue-app && npm run dev) & (cd svelte-app && npm run dev) & npm run start",
+    "install-all": "(cd vue-app && npm install) & (cd svelte-app && npm install)"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dedicio/post-message-use-case.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dedicio/post-message-use-case/issues"
+  },
+  "homepage": "https://github.com/dedicio/post-message-use-case#readme"
+}

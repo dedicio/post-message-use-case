@@ -2,33 +2,50 @@
 import { ref } from 'vue'
 
 defineProps({
-  msg: String
+  title: String
 })
 
-let count = ref('');
+let message = ref(' ');
+let count = 0;
+let source = '';
+let origin = '';
 
-function setCount(value) {
-  count.value = value;
+function setMessage(value) {
+  message.value = value;
+}
+
+function emitCountIncrement() {
+  if (!source) {
+    return setMessage('É necessário receber uma messagem antes');
+  }
+  
+  count++;
+  source.postMessage(count, origin);
 }
 
 window.addEventListener('message', (event) => {
   if (event.origin !== 'http://localhost:8080') {
     return;    
   }
+
+  source = event.source;
+  origin = event.origin;
   
-  setCount(event.data);
+  setMessage(event.data);
   return;
 })
 </script>
 
 <template>
-  <h1>{{ msg }}</h1>
+  <h1>{{ title }}</h1>
 
   <div class="card">
-    <button type="button" @click="setCount('teste')">count is {{ count }}</button>
-    <p>
-      Edit
-      <code>components/HelloWorld.vue</code> to test HMR
-    </p>
+    <div>
+      {{ message }}
+    </div>
+    <br>
+    <button type="button" @click="emitCountIncrement">
+      Soma +1
+    </button>
   </div>
 </template>

@@ -6,6 +6,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Main App</title>
   <style>
+    * {
+      font-family: sans-serif;
+    }
+
+    body {
+      text-align: center;
+    }
+
     .frames {
       display: flex;
       width: 100%;
@@ -20,46 +28,79 @@
       width: 100%;
       height: 100%;
     }
+
+    button {
+      background-color: #666;
+      color: whitesmoke;
+      padding: 0.5rem 1rem;
+      border: 0;
+      border-radius: 0.2rem;
+      margin: 0 0.5rem 1rem;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
-  <button id="msgVue">Envia para Vue</button>
-  <button id="msgSvelte">Envia para Svelte</button>
+  <h1>
+    postMessage Use Case
+  </h1>
 
   <sections class="frames">
-    <div class="col">
-      <iframe
-        src="http://localhost:5173/"
-        id="appSvelte"
-        frameborder="0">
-      </iframe>
+    <div class="col" id="vueCol">
+      <button id="msgVue">Envia mensagem para Vue</button>
+      <p>Contagem Vue: <strong id="vueCount"></strong></p>
     </div>
-    <div class="col">
-      <iframe
-        src="http://localhost:5174/"
-        id="appVue"
-        frameborder="0">
-      </iframe>
+    <div class="col" id="svelteCol">
+      <button id="msgSvelte">Envia mensagem para Svelte</button>
+      <p>Contagem Svelte: <strong id="svelteCount"></strong></p>
     </div>
   </sections>
 
   <script>
-    const iframeSvelte = document.getElementById('appSvelte');
-    const iframeVue = document.getElementById('appVue');
+    function createIframe(url, locationId) {
+      const location = document.getElementById(locationId);
+      const el = document.createElement('iframe');
+      el.setAttribute('src', url);
+      el.setAttribute('frameborder', 0);
+      location.appendChild(el);
+      return el;
+    }
+    
+    const vueUrl = 'http://localhost:5173';
+    const svelteUrl = 'http://localhost:5174';
+
+    const svelteIframe = createIframe(svelteUrl, 'svelteCol');
+    const vueIframe = createIframe(vueUrl, 'vueCol');
+    const vueCountEl = document.getElementById('vueCount');
+    const svelteCountEl = document.getElementById('svelteCount');
+    vueCountEl.textContent = 0;
+    svelteCountEl.textContent = 0;
 
     document.getElementById('msgVue').addEventListener('click', (event) => {
-      iframeVue.contentWindow.postMessage(
-        'testando envio',
-        iframeVue.attributes.getNamedItem('src').value
+      vueIframe.contentWindow.postMessage(
+        'Enviado para o Vue',
+        vueUrl,
       );
     });
 
     document.getElementById('msgSvelte').addEventListener('click', (event) => {
-      iframeSvelte.contentWindow.postMessage(
-        'testando envio',
-        iframeSvelte.attributes.getNamedItem('src').value
+      svelteIframe.contentWindow.postMessage(
+        'Enviado para o Svelte',
+        svelteUrl,
       );
     });
+
+    window.addEventListener('message', (event) => {
+      if (event.origin === vueUrl) {
+        vueCountEl.textContent = event.data;
+      }
+
+      if (event.origin === svelteUrl) {
+        svelteCountEl.textContent = event.data;
+      }
+
+      return
+    }, false);
   </script>
 </body>
 </html>

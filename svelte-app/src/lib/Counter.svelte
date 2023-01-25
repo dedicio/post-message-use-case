@@ -1,19 +1,42 @@
 <script>
+// @ts-nocheck
+
+  let message = ' '
   let count = 0
-  const setCount = (value) => {
-    count = value
+  let source = ''
+  let origin = ''
+
+
+  const setMessage = (value) => {
+    message = value
+  }
+
+  const emitCountIncrement = () => {
+    if (!source) {
+      return setMessage('É necessário receber uma messagem antes');
+    }
+    
+    count++;
+    source.postMessage(count, origin);
   }
 
   window.addEventListener('message', (event) => {
     if (event.origin !== 'http://localhost:8080') {
       return;    
     }
+
+    source = event.source
+    origin = event.origin
     
-    setCount(event.data);
+    setMessage(event.data);
     return;
   });
 </script>
 
-<button on:click={() => setCount('teste')}>
-  count is {count}
+<div>
+  { message }
+</div>
+<br>
+<button on:click={emitCountIncrement}>
+  Soma +1
 </button>

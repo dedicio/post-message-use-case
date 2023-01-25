@@ -56,6 +56,22 @@
     </div>
   </sections>
 
+  <div>
+    <p>
+      <button id="openPopup">
+        Abrir popup
+      </button>
+    </p>
+    <p>
+      <button id="msgPopup">
+        Enviar mensagem para Popup
+      </button>
+    </p>
+    <p>
+      Contagem da popup: <strong id="popupCount"></strong>
+    </p>
+  </div>
+
   <script>
     function createIframe(url, locationId) {
       const location = document.getElementById(locationId);
@@ -68,13 +84,16 @@
     
     const vueUrl = 'http://localhost:5173';
     const svelteUrl = 'http://localhost:5174';
+    const popupUrl = 'http://localhost:5175';
 
     const svelteIframe = createIframe(svelteUrl, 'svelteCol');
     const vueIframe = createIframe(vueUrl, 'vueCol');
     const vueCountEl = document.getElementById('vueCount');
     const svelteCountEl = document.getElementById('svelteCount');
+    const popupCountEl = document.getElementById('popupCount');
     vueCountEl.textContent = 0;
     svelteCountEl.textContent = 0;
+    popupCountEl.textContent = 0;
 
     document.getElementById('msgVue').addEventListener('click', (event) => {
       vueIframe.contentWindow.postMessage(
@@ -99,8 +118,25 @@
         svelteCountEl.textContent = event.data;
       }
 
+      if (event.origin === popupUrl) {
+        popupCountEl.textContent = event.data;
+      }
+
       return
     }, false);
+    
+    document.getElementById('openPopup').addEventListener('click', (event) => {
+      const popup = window.open(popupUrl);
+      console.log(popup);
+
+      document.getElementById('msgPopup').addEventListener('click', (event) => {
+          popup.postMessage(
+          'Enviado para o Popup',
+          popupUrl,
+        );
+      });
+    });
+
   </script>
 </body>
 </html>

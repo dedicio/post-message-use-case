@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon .",
-    "dev": "(cd vue-app && npm run dev) & (cd svelte-app && npm run dev) & npm run start",
-    "install-all": "(cd vue-app && npm install) & (cd svelte-app && npm install)"
+    "dev": "(cd vue-app && npm run dev) & (cd svelte-app && npm run dev) & (cd popup-app && npm run dev) & npm run start"
   },
   "repository": {
     "type": "git",

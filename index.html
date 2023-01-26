@@ -17,7 +17,6 @@
     .frames {
       display: flex;
       width: 100%;
-      height: 40vh;
     }
 
     .col {
@@ -26,7 +25,7 @@
 
     iframe {
       width: 100%;
-      height: 100%;
+      height: 40vh;
     }
 
     button {
@@ -45,6 +44,8 @@
     postMessage Use Case
   </h1>
 
+  <br>
+
   <sections class="frames">
     <div class="col" id="vueCol">
       <button id="msgVue">Envia mensagem para Vue</button>
@@ -55,6 +56,8 @@
       <p>Contagem Svelte: <strong id="svelteCount"></strong></p>
     </div>
   </sections>
+
+  <br>
 
   <div>
     <p>
@@ -69,6 +72,14 @@
     </p>
     <p>
       Contagem da popup: <strong id="popupCount"></strong>
+    </p>
+  </div>
+
+  <div>
+    <p>
+      <button id="msgAll">
+        Enviar mensagem para qualquer um
+      </button>
     </p>
   </div>
 
@@ -135,7 +146,15 @@
           popupUrl,
         );
       });
+
+      document.getElementById('msgAll').addEventListener('click', () => {
+        popup.postMessage(
+          'Enviado para qualquer um',
+          '*',
+        );
+      });
     });
+
 
   </script>
 </body>

@@ -138,7 +138,6 @@
     
     document.getElementById('openPopup').addEventListener('click', (event) => {
       const popup = window.open(popupUrl);
-      console.log(popup);
 
       document.getElementById('msgPopup').addEventListener('click', (event) => {
           popup.postMessage(
@@ -154,8 +153,6 @@
         );
       });
     });
-
-
   </script>
 </body>
 </html>
